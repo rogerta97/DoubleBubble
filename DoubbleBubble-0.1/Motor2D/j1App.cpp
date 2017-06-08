@@ -137,10 +137,7 @@ bool j1App::Start()
 	for (list<j1Module*>::iterator it = modules.begin(); it != modules.end(); it++)
 		ret = (*it)->Start();
 	
-
 	startup_time.Start();
-
-	debug_mode = true;
 
 	debug_window = (UI_Window*)App->gui->UI_CreateWin(iPoint(0, 0), 200, 115, 1);
 	debug_colored_rect = (UI_ColoredRect*)debug_window->CreateColoredRect(iPoint(0, 0), 200, 115, { 20, 20, 20, 255 }, true);

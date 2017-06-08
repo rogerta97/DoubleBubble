@@ -82,9 +82,6 @@
     <ClCompile Include="j1Viewports.cpp">
       <Filter>Engine\1. Modules =========</Filter>
     </ClCompile>
-    <ClCompile Include="Player2.cpp">
-      <Filter>Engine\4. Entities ==========\Player2</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -198,9 +195,6 @@
     <ClInclude Include="j1Viewports.h">
       <Filter>Engine\1. Modules =========</Filter>
     </ClInclude>
-    <ClInclude Include="Player2.h">
-      <Filter>Engine\4. Entities ==========\Player2</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -230,16 +224,10 @@
     <Filter Include="Engine\4. Entities ==========\Player1">
       <UniqueIdentifier>{649f33ab-cba0-4e3f-9d04-df22ae53d381}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\4. Entities ==========\Player2">
-      <UniqueIdentifier>{c345333d-c954-4149-b3e0-56eabd84bd48}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\player.xml">
       <Filter>Engine\4. Entities ==========\Player1</Filter>
-    </Xml>
-    <Xml Include="..\Game\player2.xml">
-      <Filter>Engine\4. Entities ==========\Player2</Filter>
     </Xml>
   </ItemGroup>
 </Project>

@@ -33,6 +33,8 @@ public:
 private:
 
 	SDL_Texture* ring = nullptr; 
+	
+	uint w, h; 
 
 };
 

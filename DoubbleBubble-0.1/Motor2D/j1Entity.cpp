@@ -85,9 +85,6 @@ Entity* j1Entity::CreateEntity(entity_name entity)
 	case player:
 		ret = new Player();
 		break;
-	case player2:
-		ret = new Player2();
-		break;
 	default:
 		break;
 	}

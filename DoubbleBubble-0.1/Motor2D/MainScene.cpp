@@ -1,6 +1,7 @@
 #include "MainScene.h"
 #include "j1Scene.h"
 #include "p2Log.h"
+#include "j1Window.h"
 #include "j1Input.h"
 #include "Functions.h"
 #include "j1Physics.h"
@@ -33,6 +34,8 @@ bool MainScene::Start()
 	//Load Map
 	ring = App->tex->LoadTexture("maps/ring.png");
 
+	App->win->GetWindowSize(w,h);
+
 	return ret;
 }
 
@@ -47,7 +50,7 @@ bool MainScene::Update(float dt)
 {
 	bool ret = true;
 
-	App->render->Blit(ring, 0, 0);
+	App->render->Blit(ring, w/2 - 457, h/2 - 390);
 
 	return ret;
 }

@@ -38,7 +38,6 @@ bool Player::LoadEntity()
 
 	player_go->SetAnimation("idle_down");
 
-	last_height = player_go->fGetPos().y;
 
 	return ret;
 }
@@ -70,22 +69,21 @@ bool Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_LEFT) > 12000)
 	{
 		player_go->SetPos({ player_go->fGetPos().x - speed, player_go->fGetPos().y });
-		flip = true;
+
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_RIGHT) > 12000)
 	{
 		player_go->SetPos({ player_go->fGetPos().x + speed, player_go->fGetPos().y });
-		flip = false;
+
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_UP) > 12000)
 	{
 		player_go->SetPos({ player_go->fGetPos().x, player_go->fGetPos().y - speed });
-		flip = false;
+
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_DOWN) > 12000)
 	{
 		player_go->SetPos({ player_go->fGetPos().x, player_go->fGetPos().y + speed });
-		flip = false;
 	}
 
 	App->view->CenterCamera(camera, player_go->GetPos().x + 23, player_go->GetPos().y + 35);
@@ -124,9 +122,7 @@ bool Player::Draw(float dt)
 	}
 	
 	
-	if(flip)
-		App->view->LayerBlit(2, player_go->GetTexture(), { player_go->GetPos().x - 26, player_go->GetPos().y - 35}, player_go->GetCurrentAnimationRect(dt), 0, 0, SDL_FLIP_HORIZONTAL);
-	else
+
 		App->view->LayerBlit(2, player_go->GetTexture(), { player_go->GetPos().x - 23, player_go->GetPos().y - 35 }, player_go->GetCurrentAnimationRect(dt), 0, 0, SDL_FLIP_NONE);
 
 	return ret;
