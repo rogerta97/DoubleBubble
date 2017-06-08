@@ -43,10 +43,11 @@ public:
 public:
 	GameObject* player_go = nullptr;
 
-
 private:
 	uint gamepad_num = 20;
 	int camera = 1;
+
+	char* color = ""; 
 
 };
 

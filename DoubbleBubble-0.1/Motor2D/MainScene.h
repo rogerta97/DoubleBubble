@@ -32,6 +32,9 @@ public:
 
 private:
 
+	Player* player1 = nullptr; 
+	Player* player2 = nullptr; 
+
 	SDL_Texture* ring = nullptr; 
 	
 	uint w, h; 

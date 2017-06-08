@@ -31,6 +31,8 @@ bool MainScene::Start()
 
 	LOG("Start MainScene");
 
+	player1 = (Player*)App->entity->CreateEntity(player); 
+
 	//Load Map
 	ring = App->tex->LoadTexture("maps/ring.png");
 
