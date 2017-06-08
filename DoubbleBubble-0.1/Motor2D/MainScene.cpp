@@ -30,13 +30,8 @@ bool MainScene::Start()
 
 	LOG("Start MainScene");
 
-	test_player = (Player*)App->entity->CreateEntity(player);
-	test_player->SetGamePad(1);
-	test_player->SetCamera(1);
-
-
 	//Load Map
-	App->map->Load("zelda_test.tmx");
+	ring = App->tex->LoadTexture("maps/ring.png");
 
 	return ret;
 }
@@ -52,7 +47,7 @@ bool MainScene::Update(float dt)
 {
 	bool ret = true;
 
-	App->map->Draw();
+	App->render->Blit(ring, 0, 0);
 
 	return ret;
 }
@@ -80,7 +75,7 @@ void MainScene::OnColl(PhysBody * bodyA, PhysBody * bodyB, b2Fixture * fixtureA,
 
 void MainScene::OnCommand(std::list<std::string>& tokens)
 {
-	switch (tokens.size())
+	/*switch (tokens.size())
 	{
 	case 3:
 		if (tokens.front() == "scene.set_player_gamepad") {
@@ -128,6 +123,6 @@ void MainScene::OnCommand(std::list<std::string>& tokens)
 		break;
 	default:
 		break;
-	}
+	}*/
 }
 
