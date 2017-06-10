@@ -267,6 +267,87 @@ uint j1Input::GetControllerJoystickMove(int pad, int id) const
 	return 0;
 }
 
+float j1Input::GetJoystickAngle(int pad, int movement)
+{
+	float angle = 0.0f; 
+	float rads = 0.0f; 
+
+	uint x, y; 
+	x = y = 0; 
+
+	for (std::vector<GamePad*>::const_iterator it = gamepads.begin(); it != gamepads.end(); it++)
+	{
+		x = y = 0; 
+
+		float rads; 
+
+		if ((*it)->id == gamepad_connected[pad]) 
+		{
+			switch (movement)
+			{
+			case LEFTJOY_RIGHT_UP:
+				break; 
+
+			case LEFTJOY_RIGHT_DOWN:
+				break;
+
+			case LEFTJOY_LEFT_UP:
+				
+				x = GetJoystickIntensity(GetControllerJoystickMove(pad, LEFTJOY_LEFT));
+				y = GetJoystickIntensity(GetControllerJoystickMove(pad, LEFTJOY_UP));
+
+				rads = y / (float) x; 
+
+				angle = atan(y/x);
+				
+
+				break;
+
+			case LEFTJOY_LEFT_DOWN:
+				break;
+
+			case RIGHTJOY_RIGHT_UP:
+				break;
+
+			case RIGHTJOY_RIGHT_DOWN:
+				break;
+
+			case RIGHTJOY_LEFT_UP:
+				break;
+
+			case RIGHTJOY_LEFT_DOWN:
+						break;
+
+			}
+
+		}
+	}
+
+	return 0.0f;
+}
+
+uint j1Input::GetJoystickIntensity(int intensity)
+{
+	uint ret = 0; 
+
+	if (intensity < JOY_INTENSITY_2)
+		ret = 1;
+
+	else if (intensity < JOY_INTENSITY_3)
+		ret = 2;
+
+	else if (intensity < JOY_INTENSITY_4)
+		ret = 3;
+
+	else if (intensity < JOY_INTENSITY_5)
+		ret = 4;
+
+	else
+		ret = 5; 
+
+	return ret;
+}
+
 void j1Input::GetMousePosition(int& x, int& y)
 {
 	x = mouse_x;

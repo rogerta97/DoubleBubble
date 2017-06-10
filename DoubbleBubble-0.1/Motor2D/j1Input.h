@@ -26,7 +26,27 @@ enum JOYSTICK_MOVES
 	RIGHTJOY_DOWN,
 	LEFT_TRIGGER,
 	RIGHT_TRIGGER,
+
+	LEFTJOY_RIGHT_UP,
+	LEFTJOY_RIGHT_DOWN,
+	LEFTJOY_LEFT_UP,
+	LEFTJOY_LEFT_DOWN,
+	RIGHTJOY_RIGHT_UP,
+	RIGHTJOY_RIGHT_DOWN,
+	RIGHTJOY_LEFT_UP,
+	RIGHTJOY_LEFT_DOWN,
+
 	JOY_MOVES_NULL
+};
+
+enum JOYSTICK_INTENSITY
+{
+	JOY_INTENSITY_1 = 12000,
+	JOY_INTENSITY_2 = 17000,
+	JOY_INTENSITY_3 = 22000,
+	JOY_INTENSITY_4 = 27000,
+	JOY_INTENSITY_5 = 32000,
+
 };
 
 enum j1EventWindow
@@ -96,6 +116,12 @@ public:
 
 	// Return the motion value (form 0 to 32767) for a joystick direction
 	uint GetControllerJoystickMove(int pad, int id) const;
+
+	// Returns the angle that the joysticks have
+	float GetJoystickAngle(int pad, int id);
+
+	// Returns the instensity from a value
+	uint GetJoystickIntensity(int intensity); 
 
 	// Check if a certain window event happened
 	bool GetWindowEvent(int code);

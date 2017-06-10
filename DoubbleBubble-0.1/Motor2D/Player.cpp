@@ -65,22 +65,27 @@ bool Player::Update(float dt)
 
 	float speed = (200 * dt);
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_LEFT) > 12000)
+	if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_LEFT) > 12000)
 	{
+
+		if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_UP) > 5000)
+		{
+			App->input->GetJoystickAngle(gamepad_num, LEFTJOY_LEFT_UP); 
+		}
 		player_go->SetPos({ player_go->fGetPos().x - speed, player_go->fGetPos().y });
 
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_RIGHT) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_RIGHT) > 12000)
 	{
 		player_go->SetPos({ player_go->fGetPos().x + speed, player_go->fGetPos().y });
 
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_UP) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_UP) > 12000)
 	{
 		player_go->SetPos({ player_go->fGetPos().x, player_go->fGetPos().y - speed });
 
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_DOWN) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_DOWN) > 12000)
 	{
 		player_go->SetPos({ player_go->fGetPos().x, player_go->fGetPos().y + speed });
 	}
