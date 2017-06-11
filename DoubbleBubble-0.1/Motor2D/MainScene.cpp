@@ -38,9 +38,9 @@ bool MainScene::Start()
 	ring = App->tex->LoadTexture("maps/ring.png");
 	obstacles = App->tex->LoadTexture("maps/obstacles.png"); 
 
-	ScrollManager* s_manager = new ScrollManager();
+	s_manager = new ScrollManager();
 
-	s_manager->Start(obstacles, 2560, 2560); 
+	s_manager->Start(obstacles, 2560, 2560, 1); 
 
 	App->win->GetWindowSize(w,h);
 
@@ -58,11 +58,13 @@ bool MainScene::Update(float dt)
 {
 	bool ret = true;
 
-	App->render->Blit(obstacles, w / 2 - 457, h / 2 - 390);
+	// Drawing the obstacles
+	s_manager->Update(dt);
+	s_manager->Draw();
+
+	// Drawing the ring
 	App->render->Blit(ring, w/2 - 457, h/2 - 390);
-
 	
-
 	return ret;
 }
 

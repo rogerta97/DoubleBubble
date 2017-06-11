@@ -9,6 +9,7 @@ class b2Fixture;
 class Parallax;
 class Player;
 class Player2;
+class ScrollManager;
 
 class MainScene : public Scene 
 {
@@ -37,6 +38,8 @@ private:
 
 	SDL_Texture* ring = nullptr; 
 	SDL_Texture* obstacles = nullptr; 
+
+	ScrollManager* s_manager = nullptr; 
 	
 	uint w, h; 
 
