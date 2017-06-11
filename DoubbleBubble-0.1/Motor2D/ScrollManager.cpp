@@ -13,7 +13,7 @@ void ScrollManager::Start(SDL_Texture * texture, uint img_w, uint img_h, float t
 	texture_w = img_w; 
 	texture_h = img_h; 
 
-	int first_state = rand() % 5;
+	int first_state = rand() % 4;
 	current_state = static_cast<scroll_state> (first_state);
 
 	switch_counter.Start(); 
@@ -67,38 +67,61 @@ scroll_state ScrollManager::UpdateState()
 	uint win_w, win_h; 
 	App->win->GetWindowSize(win_w, win_h);
 
-	int random_state = rand() % 5; 
+	bool assigned = false;
 
-	switch (random_state)
+	while (assigned == false)
 	{
-	case S_S_UP:
+		int random_state = rand() % 4; 
+	
+		switch (random_state)
+		{
+		case S_S_UP:
 
-		if (pivot.y + texture_h > win_h)
-			current_state = S_S_UP; 
+			if (pivot.y + texture_h > win_h)
+			{
+				current_state = S_S_UP;
+				assigned = true; 
+			}
+				
 
-		break; 
+			break;
 
-	case S_S_DOWN:
+		case S_S_DOWN:
 
-		if (pivot.y < 0)
-			current_state = S_S_DOWN;
+			if (pivot.y < 0)
+			{
+				current_state = S_S_DOWN;
+				assigned = true;
+			}
+				
 
-		break;
+			break;
 
-	case S_S_LEFT:
+		case S_S_LEFT:
+			
+			if (pivot.x + texture_w > win_w)
+			{
+				current_state = S_S_LEFT;
+				assigned = true;
+			}
+				
 
-		if (pivot.x + texture_w > 0)
-			current_state = S_S_LEFT;
+			break;
 
-		break;
+		case S_S_RIGHT:
 
-	case S_S_RIGHT:
+			if (pivot.x < 0)
+			{
+				current_state = S_S_RIGHT;
+				assigned = true;
+			}
+				
 
-		if (pivot.x > 0)
-			current_state = S_S_RIGHT;
-
-		break;
+			break;
+		}
 	}
+
+
 
 
 
@@ -112,15 +135,17 @@ bool ScrollManager::NeedToSwitch()
 	uint win_w, win_h;
 	App->win->GetWindowSize(win_w, win_h);
 
-	if (pivot.x > 0)
+	if (pivot.x == 0 && pivot.y == 0)
 		ret = true;
 
-	else if (pivot.y > 0)
-		ret = true;
-
-	else if (pivot.y + texture_h < win_h)
+	else if (pivot.x == -(texture_w - (int)win_w) && pivot.y == 0)
 		ret = true; 
 
+	else if (pivot.x == 0 && pivot.y == -(texture_h - (int)win_h))
+		ret = true;
+
+	else if (pivot.x == -(texture_w - (int)win_w) && pivot.y == -(texture_h - (int)win_h))
+		ret = true; 
 
 	return ret;
 }
