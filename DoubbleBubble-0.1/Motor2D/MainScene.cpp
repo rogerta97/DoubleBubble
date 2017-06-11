@@ -14,6 +14,7 @@
 #include "CollisionFilters.h"
 #include "Player.h"
 #include "Player2.h"
+#include "ScrollManager.h"
 #include "j1Map.h"
 
 
@@ -35,6 +36,11 @@ bool MainScene::Start()
 
 	//Load Map
 	ring = App->tex->LoadTexture("maps/ring.png");
+	obstacles = App->tex->LoadTexture("maps/obstacles.png"); 
+
+	ScrollManager* s_manager = new ScrollManager();
+
+	s_manager->Start(obstacles, 2560, 2560); 
 
 	App->win->GetWindowSize(w,h);
 
@@ -52,7 +58,10 @@ bool MainScene::Update(float dt)
 {
 	bool ret = true;
 
+	App->render->Blit(obstacles, w / 2 - 457, h / 2 - 390);
 	App->render->Blit(ring, w/2 - 457, h/2 - 390);
+
+	
 
 	return ret;
 }

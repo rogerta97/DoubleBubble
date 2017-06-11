@@ -36,6 +36,7 @@ private:
 	Player* player2 = nullptr; 
 
 	SDL_Texture* ring = nullptr; 
+	SDL_Texture* obstacles = nullptr; 
 	
 	uint w, h; 
 
