@@ -64,29 +64,60 @@ bool Player::Update(float dt)
 	bool ret = true;
 
 	float speed = (200 * dt);
+	float angle = 0.0f; 
+
 
 	if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_LEFT) > 12000)
 	{
 
 		if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_UP) > 5000)
-		{
-			App->input->GetJoystickAngle(gamepad_num, LEFTJOY_LEFT_UP); 
+		{	
+			angle = App->input->GetJoystickAngle(0, LEFTJOY_LEFT_UP); 
+
+			player_go->SetPos({ player_go->fGetPos().x - speed*cos(angle*(PI/ 180)), player_go->fGetPos().y - speed *sin(angle*(PI / 180))});
 		}
+
+		else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_DOWN) > 5000)
+		{
+			angle = App->input->GetJoystickAngle(0, LEFTJOY_LEFT_DOWN);
+
+			player_go->SetPos({ player_go->fGetPos().x - speed*cos(angle*(PI / 180)), player_go->fGetPos().y + speed *sin(angle*(PI / 180)) });
+		}
+
+	
+		else
 		player_go->SetPos({ player_go->fGetPos().x - speed, player_go->fGetPos().y });
 
 	}
 	else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_RIGHT) > 12000)
 	{
+		if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_UP) > 5000)
+		{
+			angle = App->input->GetJoystickAngle(0, LEFTJOY_RIGHT_UP);
+
+			player_go->SetPos({ player_go->fGetPos().x + speed*cos(angle*(PI / 180)), player_go->fGetPos().y - speed *sin(angle*(PI / 180)) });
+		}
+
+		else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_DOWN) > 5000)
+		{
+			angle = App->input->GetJoystickAngle(0, LEFTJOY_RIGHT_DOWN);
+
+			player_go->SetPos({ player_go->fGetPos().x + speed*cos(angle*(PI / 180)), player_go->fGetPos().y + speed *sin(angle*(PI / 180)) });
+		}
+
+		else
 		player_go->SetPos({ player_go->fGetPos().x + speed, player_go->fGetPos().y });
 
 	}
 	else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_UP) > 12000)
 	{
+	
 		player_go->SetPos({ player_go->fGetPos().x, player_go->fGetPos().y - speed });
 
 	}
 	else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_DOWN) > 12000)
 	{
+		
 		player_go->SetPos({ player_go->fGetPos().x, player_go->fGetPos().y + speed });
 	}
 

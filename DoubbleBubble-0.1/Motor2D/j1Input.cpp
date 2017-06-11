@@ -272,50 +272,87 @@ float j1Input::GetJoystickAngle(int pad, int movement)
 	float angle = 0.0f; 
 	float rads = 0.0f; 
 
-	uint x, y; 
+	float x, y; 
 	x = y = 0; 
 
 	for (std::vector<GamePad*>::const_iterator it = gamepads.begin(); it != gamepads.end(); it++)
 	{
 		x = y = 0; 
 
-		float rads; 
-
 		if ((*it)->id == gamepad_connected[pad]) 
 		{
 			switch (movement)
 			{
 			case LEFTJOY_RIGHT_UP:
+
+				x = (float)GetControllerJoystickMove(pad, LEFTJOY_RIGHT) / 100;
+				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+
+				angle = atan2(y, x)*(180.0 / PI);
+
 				break; 
 
 			case LEFTJOY_RIGHT_DOWN:
+
+				x = (float)GetControllerJoystickMove(pad, LEFTJOY_RIGHT) / 100;
+				y = (float)GetControllerJoystickMove(pad, LEFTJOY_DOWN) / 100;
+
+				angle = atan2(y, x)*(180.0 / PI);
+
 				break;
 
 			case LEFTJOY_LEFT_UP:
 				
-				x = GetJoystickIntensity(GetControllerJoystickMove(pad, LEFTJOY_LEFT));
-				y = GetJoystickIntensity(GetControllerJoystickMove(pad, LEFTJOY_UP));
+				x = (float) GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
+				y = (float) GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
 
-				rads = y / (float) x; 
-
-				angle = atan(y/x);
-				
+				angle = atan2(y, x)*(180.0/PI); 
 
 				break;
 
 			case LEFTJOY_LEFT_DOWN:
+
+				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
+				y = (float)GetControllerJoystickMove(pad, LEFTJOY_DOWN) / 100;
+
+				angle = atan2(y, x)*(180.0 / PI);
+
 				break;
 
 			case RIGHTJOY_RIGHT_UP:
+
+				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
+				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+
+				angle = atan2(y, x)*(180.0 / PI);
+
 				break;
 
 			case RIGHTJOY_RIGHT_DOWN:
+
+				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
+				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+
+				angle = atan2(y, x)*(180.0 / PI);
+
 				break;
 
 			case RIGHTJOY_LEFT_UP:
+
+				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
+				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+
+				angle = atan2(y, x)*(180.0 / PI);
+
 				break;
 
 			case RIGHTJOY_LEFT_DOWN:
+
+				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
+				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+
+				angle = atan2(y, x)*(180.0 / PI);
+
 						break;
 
 			}
@@ -323,7 +360,7 @@ float j1Input::GetJoystickAngle(int pad, int movement)
 		}
 	}
 
-	return 0.0f;
+	return angle;
 }
 
 uint j1Input::GetJoystickIntensity(int intensity)
