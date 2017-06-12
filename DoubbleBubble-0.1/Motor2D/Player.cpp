@@ -6,6 +6,7 @@
 #include "CollisionFilters.h"
 #include "j1Render.h"
 #include "j1Scene.h"
+#include "MainScene.h"
 #include "Functions.h"
 #include "j1Textures.h"
 #include "p2Log.h"
@@ -24,19 +25,28 @@ bool Player::LoadEntity()
 {
 	bool ret = true;
 
-	player_go = new GameObject(iPoint(50, 50), App->cf->CATEGORY_PLAYER, App->cf->MASK_PLAYER, pbody_type::p_t_player, 0);
+	// Create the player 
 
-	player_go->CreateCollision(iPoint(0, 0), 25, 25, fixture_type::f_t_null);
+	player_go = new GameObject(iPoint(0,0), App->cf->CATEGORY_PLAYER, App->cf->MASK_PLAYER, pbody_type::p_t_player, 0);
+
+	player_go->CreateCollision(iPoint(-11,-23), 25, 25, fixture_type::f_t_null);
 	player_go->SetListener((j1Module*)App->entity);
 	player_go->SetFixedRotation(true);
 
 	player_go->SetTexture(App->tex->LoadTexture("textures/players_spritesheet.png"));
 
+	// Create the arrow
+
+	direction_arrow = new GameObject(iPoint(0, 0), App->cf->CATEGORY_PLAYER, App->cf->MASK_PLAYER, pbody_type::p_t_player, 0); 
+
 	pugi::xml_document doc;
 	App->LoadXML("player.xml", doc);
-	player_go->LoadAnimationsFromXML(doc);
 
+	player_go->LoadAnimationsFromXML(doc);
 	player_go->SetAnimation("idlep1");
+
+	direction_arrow->LoadAnimationsFromXML(doc); 
+	direction_arrow->SetAnimation("arrowp1");
 
 	return ret;
 }
@@ -45,7 +55,9 @@ bool Player::Start()
 {
 	bool ret = true;
 
+	window = App->gui->UI_CreateWin({0, 0}, App->scene->main_scene->win_w, App->scene->main_scene->win_h);
 
+	
 
 	return ret;
 }
@@ -130,6 +142,8 @@ bool Player::Draw(float dt)
 
 	App->view->LayerBlit(2, player_go->GetTexture(), { player_go->GetPos().x - 23, player_go->GetPos().y - 35 }, player_go->GetCurrentAnimationRect(dt));
 
+	App->view->LayerBlit(2, player_go->GetTexture(), { direction_arrow->GetPos().x - 23, direction_arrow->GetPos().y - 35 }, direction_arrow->GetCurrentAnimationRect(dt));
+
 	return ret;
 }
 
@@ -175,4 +189,29 @@ void Player::SetCamera(int id)
 	{
 		camera = id;
 	}
+}
+
+void Player::SetArrowPos(float angle, int radius, int quadrant, float dt)
+{
+
+	float speed = (200 * dt); 
+
+	switch (quadrant)
+	{
+	case 0:
+
+		direction_arrow->SetPos({ player_go->fGetPos().x - speed*cos(angle*(PI / 180)), player_go->fGetPos().y - speed *sin(angle*(PI / 180)) });
+
+		break;
+
+	case 1:
+		break; 
+
+	case 2:
+		break;
+
+	case 3:
+		break;
+	}
+
 }

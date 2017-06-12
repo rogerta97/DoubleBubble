@@ -5,5 +5,18 @@
       <anim speed = "10" name = "idlep1" loop = "false">
 	      <rect x = "0" y = "0" w = "25" h = "25"/>
       </anim>
+
+     <anim speed = "10" name = "idlep2" loop = "false">
+       <rect x = "0" y = "25" w = "25" h = "25"/>
+     </anim>
+
+     <anim speed = "10" name = "arrowp1" loop = "false">
+       <rect x = "7" y = "50" w = "11" h = "7"/>
+     </anim>
+
+     <anim speed = "10" name = "arrowp2" loop = "false">
+       <rect x = "7" y = "57" w = "11" h = "7"/>
+     </anim>
+     
    </animations>
 </file>

@@ -56,7 +56,7 @@ void ScrollManager::Update(float dt)
 }
 
 void ScrollManager::Draw() 
-{
+{	
 	App->render->Blit(texture, pivot.x, pivot.y);
 }
 

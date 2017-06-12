@@ -34,6 +34,8 @@ public:
 
 	fPoint pos;
 
+	uint win_w, win_h;
+
 private:
 
 	Player* player1 = nullptr; 
@@ -46,7 +48,7 @@ private:
 
 	ScrollManager* s_manager = nullptr; 
 	
-	uint w, h; 
+
 
 };
 

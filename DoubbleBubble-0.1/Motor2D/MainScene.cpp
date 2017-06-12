@@ -46,7 +46,7 @@ bool MainScene::Start()
 
 	s_manager->Start(obstacles, 2560, 2560, 6); 
 
-	App->win->GetWindowSize(w,h);
+	App->win->GetWindowSize(win_w,win_h);
 
 	return ret;
 }
@@ -63,11 +63,11 @@ bool MainScene::Update(float dt)
 	bool ret = true;
 
 	// Drawing the obstacles
-	s_manager->Update(dt);
-	s_manager->Draw();
+	//s_manager->Update(dt);
+	//s_manager->Draw();
 
 	// Drawing the ring
-	App->render->Blit(ring, w/2 - 457, h/2 - 390);
+	App->render->Blit(ring, win_w/2 - 457, win_h/2 - 390);
 	
 	return ret;
 }
@@ -111,6 +111,7 @@ void MainScene::CreateMapCollisions()
 	{
 		string points_string = chain.child_value();
 		int num_points = chain.attribute("vertex").as_int();
+		string type = chain.attribute("type").as_string();
 		int* points = new int[num_points];
 
 		std::list<string> points_list;
@@ -124,12 +125,32 @@ void MainScene::CreateMapCollisions()
 
 			if (*it != "")
 			{
-				*(points + i) = stoi(*it);
+				if (type == "block")
+					*(points + i) = stoi(*it) / 2;
+
+				else
+					*(points + i) = stoi(*it);
+
 				i++;
 			}
 		}
-		PhysBody* b = App->physics->CreateStaticChain(0, 0, points, num_points, 1, 0, 0.0f, App->cf->CATEGORY_SCENERY, App->cf->MASK_SCENERY);
+
+		PhysBody* b = nullptr;
+
+		if (type == "ring") 
+		{
+			b = App->physics->CreateStaticChain(0, 0, points, num_points, 1, 0, 1.0f, App->cf->CATEGORY_SCENERY, App->cf->MASK_SCENERY);
+		}
+
+		if (type == "block") 
+		{
+			b = App->physics->CreateChainSensor(0, 0, points, num_points, 1, 0, 1.0f, App->cf->CATEGORY_SCENERY, App->cf->MASK_SCENERY);	
+		}
+			
+
 		b->type = pbody_type::p_t_world;
+
+
 
 		map_collisions.push_back(b);
 		RELEASE_ARRAY(points);

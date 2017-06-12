@@ -2,6 +2,7 @@
 #define _PLAYER_
 
 #include "Entity.h"
+#include "j1Gui.h"
 
 class GameObject;
 class Player : public Entity
@@ -40,14 +41,22 @@ public:
 	//Set Camera to this player. 1<=id<=4
 	void SetCamera(int id);
 
+	// Set the position of the arrow 
+	void SetArrowPos(float angle, int radius, int quadrant, float dt); 
+
 public:
 	GameObject* player_go = nullptr;
+
+	GameObject* direction_arrow = nullptr; 
 
 private:
 	uint gamepad_num = 0;
 	int camera = 1;
 
-	char* color = ""; 
+	char* color = "";
+
+	//UI
+	UI_Window* window = nullptr; 
 
 };
 

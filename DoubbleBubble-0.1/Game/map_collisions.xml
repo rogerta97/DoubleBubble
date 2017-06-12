@@ -1,11 +1,50 @@
 <!-- Config file for the game -->
 
 <collisions>
-	<chain vertex = "10">
-    150, 38,
+	<chain vertex = "10" type = "ring">
+    154, 38,
     595, 38,
-    595, 410,
-    150, 410,
-    150, 38
+    595, 405,
+    154, 405,
+    154, 37
   </chain>
+
+  <chain vertex = "10" type = "block">
+    0, 0,
+    162, -2,
+    159, 65,
+    -1, 63,
+    1, 14
+  </chain>
+
+  <chain vertex = "10" type = "block">
+    735, 0,
+    766, 0,
+    767, 30,
+    736, 30,
+    736, 7
+  </chain>
+
+  <chain vertex = "10" type = "block">
+    576, 94,
+    638, 95,
+    640, 160,
+    578, 159,
+    575, 105
+  </chain>
+
+  <chain vertex = "22" type = "block">
+    1087, 0,
+    1088, 97,
+    1154, 96,
+    1154, 127,
+    1249, 127,
+    1249, 97,
+    1187, 97,
+    1186, 63,
+    1123, 63,
+    1122, 2,
+    1100, 2
+  </chain>
+
 </collisions>
