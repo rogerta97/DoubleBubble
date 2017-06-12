@@ -235,5 +235,8 @@
     <Xml Include="..\Game\player.xml">
       <Filter>Engine\4. Entities ==========\Player</Filter>
     </Xml>
+    <Xml Include="..\Game\map_collisions.xml">
+      <Filter>Engine\3. Scenes ==========\MainScene</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

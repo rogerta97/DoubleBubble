@@ -145,6 +145,7 @@
     <ClInclude Include="ScrollManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="..\Game\map_collisions.xml" />
     <Xml Include="..\Game\player.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

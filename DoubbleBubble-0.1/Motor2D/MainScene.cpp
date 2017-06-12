@@ -8,6 +8,7 @@
 #include "GameObject.h"
 #include "j1App.h"
 #include "j1Gui.h"
+#include "j1FileSystem.h"
 #include "j1Console.h"
 #include "Parallax.h"
 #include "j1Entity.h"
@@ -33,6 +34,7 @@ bool MainScene::Start()
 	LOG("Start MainScene");
 
 	player1 = (Player*)App->entity->CreateEntity(player); 
+	player1->player_go->SetPos({ 190, 400});
 
 	//Load Map
 	ring = App->tex->LoadTexture("maps/ring.png");
@@ -40,7 +42,9 @@ bool MainScene::Start()
 
 	s_manager = new ScrollManager();
 
-	s_manager->Start(obstacles, 2560, 2560, 1); 
+	CreateMapCollisions(); 
+
+	s_manager->Start(obstacles, 2560, 2560, 6); 
 
 	App->win->GetWindowSize(w,h);
 
@@ -87,6 +91,49 @@ bool MainScene::CleanUp()
 void MainScene::OnColl(PhysBody * bodyA, PhysBody * bodyB, b2Fixture * fixtureA, b2Fixture * fixtureB)
 {
 
+}
+
+void MainScene::CreateMapCollisions()
+{
+	pugi::xml_document doc;
+
+	char* buf = NULL;
+	int size = App->fs->Load("map_collisions.xml", &buf);
+	pugi::xml_parse_result result = doc.load_buffer(buf, size);
+
+	pugi::xml_document* new_doc = new pugi::xml_document();
+
+	RELEASE(buf);
+
+	pugi::xml_node collisions = doc.child("collisions");
+
+	for (pugi::xml_node chain = collisions.child("chain"); chain != NULL; chain = chain.next_sibling("chain"))
+	{
+		string points_string = chain.child_value();
+		int num_points = chain.attribute("vertex").as_int();
+		int* points = new int[num_points];
+
+		std::list<string> points_list;
+		Tokenize(points_string, ',', points_list);
+
+		int i = 0;
+		for (std::list<string>::iterator it = points_list.begin(); it != points_list.end(); it++)
+		{
+			if (i >= num_points)
+				break;
+
+			if (*it != "")
+			{
+				*(points + i) = stoi(*it);
+				i++;
+			}
+		}
+		PhysBody* b = App->physics->CreateStaticChain(0, 0, points, num_points, 1, 0, 0.0f, App->cf->CATEGORY_SCENERY, App->cf->MASK_SCENERY);
+		b->type = pbody_type::p_t_world;
+
+		map_collisions.push_back(b);
+		RELEASE_ARRAY(points);
+	}
 }
 
 void MainScene::OnCommand(std::list<std::string>& tokens)
@@ -141,4 +188,6 @@ void MainScene::OnCommand(std::list<std::string>& tokens)
 		break;
 	}*/
 }
+
+
 

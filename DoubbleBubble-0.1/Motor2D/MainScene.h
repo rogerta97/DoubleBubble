@@ -2,6 +2,7 @@
 #define _MAINSCENE_H_
 
 #include "Scene.h"
+#include <vector>
 #include "j1Render.h"
 
 class GameObject;
@@ -25,6 +26,8 @@ public:
 
 	void OnColl(PhysBody* bodyA, PhysBody* bodyB, b2Fixture* fixtureA, b2Fixture* fixtureB);
 	void OnCommand(std::list<std::string>& tokens);
+	
+	void CreateMapCollisions(); 
 
 	GameObject* go = nullptr;
 	Parallax* p1 = nullptr;
@@ -38,6 +41,8 @@ private:
 
 	SDL_Texture* ring = nullptr; 
 	SDL_Texture* obstacles = nullptr; 
+
+	vector<PhysBody*>	map_collisions;
 
 	ScrollManager* s_manager = nullptr; 
 	

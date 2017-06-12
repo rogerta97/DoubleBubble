@@ -1,0 +1,11 @@
+<!-- Config file for the game -->
+
+<collisions>
+	<chain vertex = "10">
+    150, 38,
+    595, 38,
+    595, 410,
+    150, 410,
+    150, 38
+  </chain>
+</collisions>
