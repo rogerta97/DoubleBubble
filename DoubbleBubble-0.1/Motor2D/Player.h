@@ -5,6 +5,15 @@
 #include "j1Gui.h"
 
 class GameObject;
+
+struct PlayerArrow
+{
+	GameObject* go = nullptr;
+	float arrow_angle = 0.0f;
+	int quadrant = 0;
+	bool straight = false;
+};
+
 class Player : public Entity
 {
 public:
@@ -41,14 +50,12 @@ public:
 	//Set Camera to this player. 1<=id<=4
 	void SetCamera(int id);
 
-	// Set the position of the arrow 
-	void SetArrowPos(float angle, int radius, int quadrant, float dt); 
+	void UpdateArrowPos(int quadrant, iPoint offset, bool straight);
 
 public:
 	GameObject* player_go = nullptr;
 
-	GameObject* direction_arrow = nullptr; 
-	float arrow_angle = 0.0f;
+	PlayerArrow arrow; 
 
 private:
 	uint gamepad_num = 0;

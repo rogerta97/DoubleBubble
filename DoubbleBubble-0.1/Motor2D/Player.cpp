@@ -39,7 +39,7 @@ bool Player::LoadEntity()
 
 	// Create the arrow
 
-	direction_arrow = new GameObject(iPoint(0, 0), App->cf->CATEGORY_PLAYER, App->cf->MASK_PLAYER, pbody_type::p_t_player, 0); 
+	arrow.go = new GameObject(iPoint(0, 0), App->cf->CATEGORY_PLAYER, App->cf->MASK_PLAYER, pbody_type::p_t_player, 0); 
 
 	pugi::xml_document doc;
 	App->LoadXML("player.xml", doc);
@@ -47,8 +47,8 @@ bool Player::LoadEntity()
 	player_go->LoadAnimationsFromXML(doc);
 	player_go->SetAnimation("idlep1");
 
-	direction_arrow->LoadAnimationsFromXML(doc); 
-	direction_arrow->SetAnimation("arrowp1");
+	arrow.go->LoadAnimationsFromXML(doc); 
+	arrow.go->SetAnimation("arrowp1");
 
 	return ret;
 }
@@ -68,8 +68,6 @@ bool Player::PreUpdate()
 {
 	bool ret = true;
 
-
-
 	return ret;
 }
 
@@ -80,7 +78,7 @@ bool Player::Update(float dt)
 	float speed = (200 * dt);
 	float angle = 0.0f; 
 
-	iPoint center_offset = {0, 18};
+	iPoint center_offset = {0, 19};
 
 
 	// Controlls for the left joystick 
@@ -142,37 +140,61 @@ bool Player::Update(float dt)
 	//---
 
 	// Controlls for the arrow 
-
 	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_RIGHT) > 12000)
-	{
-		direction_arrow->SetPos({ (float)player_go->GetPos().x + BALL_RADIUS, (float)player_go->GetPos().y + center_offset.y});
-		arrow_angle = 90.0f;
+	{		
+		arrow.arrow_angle = 90.0f;
+		arrow.quadrant = 4;
+		arrow.straight = true; 
 
 		if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 5000)
 		{
-			arrow_angle = App->input->GetJoystickAngle(0, RIGHTJOY_RIGHT_UP);
-			direction_arrow->SetPos({ player_go->fGetPos().x + cos(angle*(PI / 180)), player_go->fGetPos().y - sin(angle*(PI / 180)) });
+			arrow.arrow_angle = App->input->GetJoystickAngle(gamepad_num, RIGHTJOY_RIGHT_UP);
+			arrow.quadrant = 1;
+			arrow.straight = false;
+		}
 
+		else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_DOWN) > 5000)
+		{
+			arrow.arrow_angle = App->input->GetJoystickAngle(gamepad_num, RIGHTJOY_RIGHT_DOWN);
+			arrow.straight = false;
 		}
 	}
 
-	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_LEFT) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_LEFT) > 12000)
 	{
-		direction_arrow->SetPos({ (float)player_go->GetPos().x - BALL_RADIUS, (float)player_go->GetPos().y + center_offset.y });
-		arrow_angle = -90.0f;
+		arrow.arrow_angle = -90.0f;
+		arrow.quadrant = 2; 
+		arrow.straight = true;
+
+		if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 5000)
+		{
+			arrow.arrow_angle = App->input->GetJoystickAngle(gamepad_num, RIGHTJOY_LEFT_UP);
+			arrow.straight = false;
+		}
+
+		else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_DOWN) > 5000)
+		{
+			arrow.arrow_angle = App->input->GetJoystickAngle(gamepad_num, RIGHTJOY_LEFT_DOWN);
+			arrow.quadrant = 3; 
+			arrow.straight = false;
+		}
 	}
 
-	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 12000)
 	{
-		direction_arrow->SetPos({ (float)player_go->GetPos().x , (float)player_go->GetPos().y + center_offset.y - BALL_RADIUS });
-		arrow_angle = 0.0f;
+		arrow.arrow_angle = 0.0f;
+		arrow.quadrant = 1;
+		arrow.straight = true;
 	}
 
-	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_DOWN) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_DOWN) > 12000)
 	{
-		direction_arrow->SetPos({ (float)player_go->GetPos().x , (float)player_go->GetPos().y + center_offset.y + BALL_RADIUS });
-		arrow_angle = 180.0f;
+		arrow.arrow_angle = 180.0f;
+		arrow.quadrant = 3; 
+		arrow.straight = true;
 	}
+
+	UpdateArrowPos(arrow.quadrant, center_offset, arrow.straight);
 
 	return ret;
 }
@@ -183,7 +205,7 @@ bool Player::Draw(float dt)
 
 	App->view->LayerBlit(2, player_go->GetTexture(), { player_go->GetPos().x - 23, player_go->GetPos().y - 35 }, player_go->GetCurrentAnimationRect(dt));
 
-	App->view->LayerBlit(2, player_go->GetTexture(), { direction_arrow->GetPos().x - 16, direction_arrow->GetPos().y - 45}, direction_arrow->GetCurrentAnimationRect(dt), 0, 2.0, SDL_FLIP_NONE, arrow_angle);
+	App->view->LayerBlit(2, player_go->GetTexture(), { arrow.go->GetPos().x - 16, arrow.go->GetPos().y - 45 }, arrow.go->GetCurrentAnimationRect(dt));
 
 	return ret;
 }
@@ -232,27 +254,48 @@ void Player::SetCamera(int id)
 	}
 }
 
-void Player::SetArrowPos(float angle, int radius, int quadrant, float dt)
+
+void Player::UpdateArrowPos(int quadrant, iPoint offset, bool straight)
 {
 
-	float speed = (200 * dt); 
+	float final_angle = 0.0f; 
+
+	iPoint center = { player_go->GetPos().x - offset.x , player_go->GetPos().y + offset.y };
 
 	switch (quadrant)
 	{
-	case 0:
-
-		direction_arrow->SetPos({ player_go->fGetPos().x - speed*cos(angle*(PI / 180)), player_go->fGetPos().y - speed *sin(angle*(PI / 180)) });
-
+	case 1:
+		if(straight)
+			arrow.go->SetPos({ (float)center.x, (float)center.y - BALL_RADIUS});
+		else
+			arrow.go->SetPos({ (float)center.x + (cos(arrow.arrow_angle*(PI/180))*BALL_RADIUS), (float)center.y - (sin(arrow.arrow_angle*(PI / 180))*BALL_RADIUS) });
 		break;
 
-	case 1:
-		break; 
-
 	case 2:
+		if (straight)
+			arrow.go->SetPos({ (float)center.x - BALL_RADIUS , (float)center.y });
+		else
+			arrow.go->SetPos({ (float)center.x - (cos(arrow.arrow_angle*(PI / 180))*BALL_RADIUS), (float)center.y - (sin(arrow.arrow_angle*(PI / 180))*BALL_RADIUS) });
 		break;
 
 	case 3:
+		if (straight)
+			arrow.go->SetPos({ (float)center.x, (float)center.y + BALL_RADIUS });
+		else
+			arrow.go->SetPos({ (float)center.x - (cos(arrow.arrow_angle*(PI / 180))*BALL_RADIUS), (float)center.y + (sin(arrow.arrow_angle*(PI / 180))*BALL_RADIUS) });
+		break;
+
+	case 4:
+		if (straight)
+			arrow.go->SetPos({ (float)center.x + BALL_RADIUS, (float)center.y  });
+		else
+			arrow.go->SetPos({ (float)center.x + (cos(arrow.arrow_angle*(PI / 180))*BALL_RADIUS), (float)center.y + (sin(arrow.arrow_angle*(PI / 180))*BALL_RADIUS) });
 		break;
 	}
 
 }
+
+
+
+
+
