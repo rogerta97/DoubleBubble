@@ -63,8 +63,8 @@ bool MainScene::Update(float dt)
 	bool ret = true;
 
 	// Drawing the obstacles
-	//s_manager->Update(dt);
-	//s_manager->Draw();
+	s_manager->Update(dt);
+	s_manager->Draw();
 
 	// Drawing the ring
 	App->render->Blit(ring, win_w/2 - 457, win_h/2 - 390);

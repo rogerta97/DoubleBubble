@@ -12,6 +12,8 @@
 #include "p2Log.h"
 #include "j1Viewports.h"
 
+#define BALL_RADIUS 19
+
 
 Player::Player()
 {
@@ -78,6 +80,10 @@ bool Player::Update(float dt)
 	float speed = (200 * dt);
 	float angle = 0.0f; 
 
+	iPoint center_offset = {0, 18};
+
+
+	// Controlls for the left joystick 
 
 	if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_LEFT) > 12000)
 	{
@@ -86,7 +92,7 @@ bool Player::Update(float dt)
 		{	
 			angle = App->input->GetJoystickAngle(0, LEFTJOY_LEFT_UP); 
 
-			player_go->SetPos({ player_go->fGetPos().x - speed*cos(angle*(PI/ 180)), player_go->fGetPos().y - speed *sin(angle*(PI / 180))});
+			player_go->SetPos({ player_go->fGetPos().x - speed*cos(angle*(PI/ 180)), player_go->fGetPos().y - speed *sin(angle*(PI / 180))});	
 		}
 
 		else if (App->input->GetControllerJoystickMove(gamepad_num, LEFTJOY_DOWN) > 5000)
@@ -114,7 +120,7 @@ bool Player::Update(float dt)
 		{
 			angle = App->input->GetJoystickAngle(0, LEFTJOY_RIGHT_DOWN);
 
-			player_go->SetPos({ player_go->fGetPos().x + speed*cos(angle*(PI / 180)), player_go->fGetPos().y + speed *sin(angle*(PI / 180)) });
+			player_go->SetPos({ player_go->fGetPos().x + speed*cos(angle*(PI / 180)), player_go->fGetPos().y + speed *sin(angle*(PI / 180)) });		
 		}
 
 		else
@@ -133,6 +139,41 @@ bool Player::Update(float dt)
 		player_go->SetPos({ player_go->fGetPos().x, player_go->fGetPos().y + speed });
 	}
 
+	//---
+
+	// Controlls for the arrow 
+
+	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_RIGHT) > 12000)
+	{
+		direction_arrow->SetPos({ (float)player_go->GetPos().x + BALL_RADIUS, (float)player_go->GetPos().y + center_offset.y});
+		arrow_angle = 90.0f;
+
+		if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 5000)
+		{
+			arrow_angle = App->input->GetJoystickAngle(0, RIGHTJOY_RIGHT_UP);
+			direction_arrow->SetPos({ player_go->fGetPos().x + cos(angle*(PI / 180)), player_go->fGetPos().y - sin(angle*(PI / 180)) });
+
+		}
+	}
+
+	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_LEFT) > 12000)
+	{
+		direction_arrow->SetPos({ (float)player_go->GetPos().x - BALL_RADIUS, (float)player_go->GetPos().y + center_offset.y });
+		arrow_angle = -90.0f;
+	}
+
+	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 12000)
+	{
+		direction_arrow->SetPos({ (float)player_go->GetPos().x , (float)player_go->GetPos().y + center_offset.y - BALL_RADIUS });
+		arrow_angle = 0.0f;
+	}
+
+	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_DOWN) > 12000)
+	{
+		direction_arrow->SetPos({ (float)player_go->GetPos().x , (float)player_go->GetPos().y + center_offset.y + BALL_RADIUS });
+		arrow_angle = 180.0f;
+	}
+
 	return ret;
 }
 
@@ -142,7 +183,7 @@ bool Player::Draw(float dt)
 
 	App->view->LayerBlit(2, player_go->GetTexture(), { player_go->GetPos().x - 23, player_go->GetPos().y - 35 }, player_go->GetCurrentAnimationRect(dt));
 
-	App->view->LayerBlit(2, player_go->GetTexture(), { direction_arrow->GetPos().x - 23, direction_arrow->GetPos().y - 35 }, direction_arrow->GetCurrentAnimationRect(dt));
+	App->view->LayerBlit(2, player_go->GetTexture(), { direction_arrow->GetPos().x - 16, direction_arrow->GetPos().y - 45}, direction_arrow->GetCurrentAnimationRect(dt), 0, 2.0, SDL_FLIP_NONE, arrow_angle);
 
 	return ret;
 }

@@ -48,6 +48,7 @@ public:
 	GameObject* player_go = nullptr;
 
 	GameObject* direction_arrow = nullptr; 
+	float arrow_angle = 0.0f;
 
 private:
 	uint gamepad_num = 0;

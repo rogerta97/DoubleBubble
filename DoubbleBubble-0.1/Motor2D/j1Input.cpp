@@ -321,8 +321,8 @@ float j1Input::GetJoystickAngle(int pad, int movement)
 
 			case RIGHTJOY_RIGHT_UP:
 
-				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
-				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+				x = (float)GetControllerJoystickMove(pad, RIGHTJOY_RIGHT) / 100;
+				y = (float)GetControllerJoystickMove(pad, RIGHTJOY_UP) / 100;
 
 				angle = atan2(y, x)*(180.0 / PI);
 
@@ -330,8 +330,8 @@ float j1Input::GetJoystickAngle(int pad, int movement)
 
 			case RIGHTJOY_RIGHT_DOWN:
 
-				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
-				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+				x = (float)GetControllerJoystickMove(pad, RIGHTJOY_RIGHT) / 100;
+				y = (float)GetControllerJoystickMove(pad, RIGHTJOY_DOWN) / 100;
 
 				angle = atan2(y, x)*(180.0 / PI);
 
@@ -339,8 +339,8 @@ float j1Input::GetJoystickAngle(int pad, int movement)
 
 			case RIGHTJOY_LEFT_UP:
 
-				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
-				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+				x = (float)GetControllerJoystickMove(pad, RIGHTJOY_LEFT) / 100;
+				y = (float)GetControllerJoystickMove(pad, RIGHTJOY_UP) / 100;
 
 				angle = atan2(y, x)*(180.0 / PI);
 
@@ -348,8 +348,8 @@ float j1Input::GetJoystickAngle(int pad, int movement)
 
 			case RIGHTJOY_LEFT_DOWN:
 
-				x = (float)GetControllerJoystickMove(pad, LEFTJOY_LEFT) / 100;
-				y = (float)GetControllerJoystickMove(pad, LEFTJOY_UP) / 100;
+				x = (float)GetControllerJoystickMove(pad, RIGHTJOY_LEFT) / 100;
+				y = (float)GetControllerJoystickMove(pad, RIGHTJOY_DOWN) / 100;
 
 				angle = atan2(y, x)*(180.0 / PI);
 
