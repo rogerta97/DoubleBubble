@@ -17,6 +17,20 @@
      <anim speed = "10" name = "arrowp2" loop = "false">
        <rect x = "7" y = "57" w = "11" h = "7"/>
      </anim>
+
+     <anim speed = "10" name = "projectilep1" loop = "true">
+       <rect x = "25" y = "0" w = "10" h = "10"/>
+       <rect x = "35" y = "1" w = "9" h = "9"/>
+       <rect x = "44" y = "2" w = "8" h = "8"/>
+       <rect x = "35" y = "1" w = "9" h = "9"/>
+     </anim>
+
+     <anim speed = "10" name = "projectilep2" loop = "true">
+       <rect x = "25" y = "10" w = "10" h = "10"/>
+       <rect x = "35" y = "11" w = "9" h = "9"/>
+       <rect x = "44" y = "12" w = "8" h = "8"/>
+       <rect x = "35" y = "11" w = "9" h = "9"/>
+     </anim>
      
    </animations>
 </file>

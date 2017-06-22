@@ -37,6 +37,8 @@ public:
 
 	virtual void OnColl(PhysBody* bodyA, PhysBody* bodyB, b2Fixture* fixtureA, b2Fixture* fixtureB) {};
 
+	int id = -1; 
+
 public:
 
 };

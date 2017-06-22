@@ -93,6 +93,7 @@ Entity* j1Entity::CreateEntity(entity_name entity)
 	{
 		ret->LoadEntity();
 		ret->Start();
+		ret->id = entity_list.size(); 
 		entity_list.push_back(ret);
 	}
 	else
@@ -106,6 +107,17 @@ void j1Entity::DeleteEntity(Entity* entity)
 	entity->CleanUp();
 	entity_list.remove(entity);
 	RELEASE(entity);
+}
+
+Entity * j1Entity::GetEntity(int id)
+{
+	for (list<Entity*>::iterator it = entity_list.begin(); it != entity_list.end(); it++)
+	{
+		if ((*it)->id == id)
+			return (*it); 
+	}
+
+	return nullptr;
 }
 
 

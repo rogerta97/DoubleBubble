@@ -49,6 +49,8 @@ public:
 	Entity* CreateEntity(entity_name entity);
 	void DeleteEntity(Entity* entity);
 
+	Entity* GetEntity(int id);
+
 private:
 
 private:

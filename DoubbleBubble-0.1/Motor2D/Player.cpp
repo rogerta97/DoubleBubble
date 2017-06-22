@@ -59,7 +59,7 @@ bool Player::Start()
 
 	window = App->gui->UI_CreateWin({0, 0}, App->scene->main_scene->win_w, App->scene->main_scene->win_h);
 
-	
+	proj_manager->Start(); 
 
 	return ret;
 }
@@ -140,7 +140,7 @@ bool Player::Update(float dt)
 	//---
 
 	// Controlls for the arrow 
-	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_RIGHT) > 12000)
+	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_RIGHT) > 5000)
 	{		
 		arrow.arrow_angle = 90.0f;
 		arrow.quadrant = 4;
@@ -160,7 +160,7 @@ bool Player::Update(float dt)
 		}
 	}
 
-	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_LEFT) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_LEFT) > 5000)
 	{
 		arrow.arrow_angle = -90.0f;
 		arrow.quadrant = 2; 
@@ -180,14 +180,14 @@ bool Player::Update(float dt)
 		}
 	}
 
-	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 5000)
 	{
 		arrow.arrow_angle = 0.0f;
 		arrow.quadrant = 1;
 		arrow.straight = true;
 	}
 
-	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_DOWN) > 12000)
+	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_DOWN) > 5000)
 	{
 		arrow.arrow_angle = 180.0f;
 		arrow.quadrant = 3; 
@@ -195,6 +195,26 @@ bool Player::Update(float dt)
 	}
 
 	UpdateArrowPos(arrow.quadrant, center_offset, arrow.straight);
+
+	// ---
+
+	// Controlls for the shooting
+	if (App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
+	{
+		switch (gamepad_num)
+		{
+		case 0:
+			proj_manager->CreateProjectile(PARENT_P1); 
+			break; 
+
+		case 1:
+			proj_manager->CreateProjectile(PARENT_P2); 
+			
+		}
+	}
+
+	if (proj_manager->ProjectilesWindow())
+		proj_manager->Update(); 
 
 	return ret;
 }

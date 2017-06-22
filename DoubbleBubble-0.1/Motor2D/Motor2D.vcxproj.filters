@@ -85,6 +85,9 @@
     <ClCompile Include="ScrollManager.cpp">
       <Filter>Engine\2. Components ======</Filter>
     </ClCompile>
+    <ClCompile Include="ProjectileManager.cpp">
+      <Filter>Engine\2. Components ======</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -199,6 +202,9 @@
       <Filter>Engine\1. Modules =========</Filter>
     </ClInclude>
     <ClInclude Include="ScrollManager.h">
+      <Filter>Engine\2. Components ======</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileManager.h">
       <Filter>Engine\2. Components ======</Filter>
     </ClInclude>
   </ItemGroup>
