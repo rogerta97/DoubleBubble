@@ -3,12 +3,14 @@
 
 #include <vector>
 #include "PugiXml\src\pugixml.hpp"
+#include "j1Textures.h"
 #include "p2Point.h"
 
 #define MODULAR_PROJECTILE_VELOCITY 15
 
 class GameObject; 
 class Animator; 
+
 
 enum parent
 { 
@@ -19,15 +21,11 @@ enum parent
 
 struct Projectile
 {
-
 	GameObject* projectile = nullptr; 
 	bool		active = false; 
 	parent		parent = PARENT_NULL;
 
 	iPoint		velocity = { 0,0 }; 
-	iPoint		position = { 0,0 };
-
-	Animator*	projectile_animation = nullptr;
 };
 
 class ProjectileManager
@@ -38,7 +36,7 @@ public:
 
 	void Start();
 
-	void Update(); 
+	void Update(float dt); 
 
 	void CleanUp();
 
@@ -46,15 +44,20 @@ public:
 
 	void CreateProjectile(parent who); 
 
-	bool ProjectilesWindow();
+	void ShotProjectile(parent who); 
+
 
 private:
 
-	vector<Projectile> projectile_list;
+	pugi::xml_document doc;
 
-	pugi::xml_document docs;
+	Projectile prefab_proj1;
+	Projectile prefab_proj2;
 
-	bool projectiles_on_screen = false; 
+	std::vector<Projectile> projectiles_on_screen;
+
+	SDL_Texture* projectiles_texture = nullptr; 
+
 
 };
 

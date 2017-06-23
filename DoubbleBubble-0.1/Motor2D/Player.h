@@ -2,7 +2,6 @@
 #define _PLAYER_
 
 #include "Entity.h"
-#include "ProjectileManager.h"
 #include "j1Gui.h"
 
 class GameObject;
@@ -57,8 +56,6 @@ public:
 	GameObject* player_go = nullptr;
 
 	PlayerArrow arrow; 
-
-	ProjectileManager* proj_manager = nullptr; 
 
 private:
 	uint gamepad_num = 0;

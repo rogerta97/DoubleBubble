@@ -11,6 +11,7 @@ class Parallax;
 class Player;
 class Player2;
 class ScrollManager;
+class ProjectileManager;
 
 class MainScene : public Scene 
 {
@@ -47,6 +48,7 @@ private:
 	vector<PhysBody*>	map_collisions;
 
 	ScrollManager* s_manager = nullptr; 
+	ProjectileManager* proj_manager = nullptr; 
 	
 
 

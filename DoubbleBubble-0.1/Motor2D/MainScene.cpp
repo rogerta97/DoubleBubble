@@ -4,6 +4,7 @@
 #include "j1Window.h"
 #include "j1Input.h"
 #include "Functions.h"
+#include "ProjectileManager.h"
 #include "j1Physics.h"
 #include "GameObject.h"
 #include "j1App.h"
@@ -41,6 +42,8 @@ bool MainScene::Start()
 	obstacles = App->tex->LoadTexture("maps/obstacles.png"); 
 
 	s_manager = new ScrollManager();
+	proj_manager = new ProjectileManager();
+	proj_manager->Start();
 
 	CreateMapCollisions(); 
 
@@ -65,6 +68,8 @@ bool MainScene::Update(float dt)
 	// Drawing the obstacles
 	s_manager->Update(dt);
 	s_manager->Draw();
+
+	proj_manager->Update(dt); 
 
 	// Drawing the ring
 	App->render->Blit(ring, win_w/2 - 457, win_h/2 - 390);

@@ -59,8 +59,6 @@ bool Player::Start()
 
 	window = App->gui->UI_CreateWin({0, 0}, App->scene->main_scene->win_w, App->scene->main_scene->win_h);
 
-	proj_manager->Start(); 
-
 	return ret;
 }
 
@@ -198,23 +196,6 @@ bool Player::Update(float dt)
 
 	// ---
 
-	// Controlls for the shooting
-	if (App->input->GetControllerButton(gamepad_num, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KEY_DOWN)
-	{
-		switch (gamepad_num)
-		{
-		case 0:
-			proj_manager->CreateProjectile(PARENT_P1); 
-			break; 
-
-		case 1:
-			proj_manager->CreateProjectile(PARENT_P2); 
-			
-		}
-	}
-
-	if (proj_manager->ProjectilesWindow())
-		proj_manager->Update(); 
 
 	return ret;
 }
