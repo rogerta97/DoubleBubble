@@ -39,7 +39,7 @@ void ProjectileManager::Update(float dt)
 
 	for (vector<Projectile>::iterator it = projectiles_on_screen.begin(); it != projectiles_on_screen.end(); it++)
 	{
-		//(*it).projectile->SetPos({ (float)(*it).projectile->GetPos().x + ((*it).velocity.x*0.05f),  (float)(*it).projectile->GetPos().y + ((*it).velocity.y*0.05f)});
+		(*it).projectile->SetPos({ (float)(*it).projectile->GetPos().x + ((*it).velocity.x*0.05f),  (float)(*it).projectile->GetPos().y + ((*it).velocity.y*0.05f)});
 		App->view->LayerBlit(3, (*it).projectile->GetTexture(), (*it).projectile->GetPos(), (*it).projectile->GetCurrentAnimationRect(dt)); 
 	}
 
@@ -114,7 +114,26 @@ void ProjectileManager::ShotProjectile(parent who)
 		new_projectile.parent = PARENT_P1;
 
 		new_projectile.projectile->SetPos({ (float)player_entity->player_go->GetPos().x - 15, (float)player_entity->player_go->GetPos().y - 27 });
-		new_projectile.velocity = iPoint((cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), (sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+
+		switch (player_entity->arrow.quadrant)
+		{
+		case 1:
+			new_projectile.velocity = iPoint((cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), -(sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+			break;
+
+		case 2:
+			new_projectile.velocity = iPoint(-(cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), (sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+			break; 
+
+		case 3: 
+			new_projectile.velocity = iPoint(-(cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), -(sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+			break; 
+
+		case 4:
+			new_projectile.velocity = iPoint((cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), (sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+			break; 
+		}
+		
 
 		new_projectile.projectile->SetTexture(projectiles_texture);
 

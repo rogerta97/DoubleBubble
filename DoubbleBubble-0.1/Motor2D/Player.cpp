@@ -140,7 +140,7 @@ bool Player::Update(float dt)
 	// Controlls for the arrow 
 	if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_RIGHT) > 5000)
 	{		
-		arrow.arrow_angle = 90.0f;
+	//	arrow.arrow_angle = 90.0f;
 		arrow.quadrant = 4;
 		arrow.straight = true; 
 
@@ -160,7 +160,7 @@ bool Player::Update(float dt)
 
 	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_LEFT) > 5000)
 	{
-		arrow.arrow_angle = -90.0f;
+		//arrow.arrow_angle = -90.0f;
 		arrow.quadrant = 2; 
 		arrow.straight = true;
 
@@ -180,14 +180,14 @@ bool Player::Update(float dt)
 
 	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_UP) > 5000)
 	{
-		arrow.arrow_angle = 0.0f;
+		//arrow.arrow_angle = 0.0f;
 		arrow.quadrant = 1;
 		arrow.straight = true;
 	}
 
 	else if (App->input->GetControllerJoystickMove(gamepad_num, RIGHTJOY_DOWN) > 5000)
 	{
-		arrow.arrow_angle = 180.0f;
+	//	arrow.arrow_angle = 180.0f;
 		arrow.quadrant = 3; 
 		arrow.straight = true;
 	}
