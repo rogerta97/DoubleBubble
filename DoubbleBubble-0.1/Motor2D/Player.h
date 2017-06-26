@@ -61,8 +61,6 @@ private:
 	uint gamepad_num = 0;
 	int camera = 1;
 
-	char* color = "";
-
 	//UI
 	UI_Window* window = nullptr; 
 

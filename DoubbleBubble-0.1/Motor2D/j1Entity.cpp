@@ -111,6 +111,7 @@ void j1Entity::DeleteEntity(Entity* entity)
 
 Entity * j1Entity::GetEntity(int id)
 {
+	
 	for (list<Entity*>::iterator it = entity_list.begin(); it != entity_list.end(); it++)
 	{
 		if ((*it)->id == id)
