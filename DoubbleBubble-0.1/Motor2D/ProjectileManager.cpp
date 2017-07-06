@@ -12,10 +12,10 @@ void ProjectileManager::Start()
 
 	App->LoadXML("player.xml", doc);
 
-	CreateProjectile(PARENT_P1); 
-	//CreateProjectile(PARENT_P2);
-
 	projectiles_texture = App->tex->LoadTexture("textures/players_spritesheet.png");
+
+	bullets_update_timer = new j1PerfTimer(); 
+	bullets_update_timer->Start(); 
 
 	//prefab_proj2.projectile->animator->LoadAnimationsFromXML(doc);
 	//prefab_proj2.projectile->animator->SetAnimation("projectilep2");
@@ -36,62 +36,20 @@ void ProjectileManager::Update(float dt)
 	}
 
 	//We update the rest
+	/// We are updating every 0.2 sec to ease the use of velocity variable avoiding it to be 0.8999.
+	
 
 	for (vector<Projectile>::iterator it = projectiles_on_screen.begin(); it != projectiles_on_screen.end(); it++)
-	{
-		(*it).projectile->SetPos({ (float)(*it).projectile->GetPos().x + ((*it).velocity.x*0.05f),  (float)(*it).projectile->GetPos().y + ((*it).velocity.y*0.05f)});
-		App->view->LayerBlit(3, (*it).projectile->GetTexture(), (*it).projectile->GetPos(), (*it).projectile->GetCurrentAnimationRect(dt)); 
-	}
-
+		{
+			(*it).projectile->SetPos({ (float)(*it).projectile->GetPos().x + ((*it).velocity.x*0.5f - 0.15f),  (float)(*it).projectile->GetPos().y + ((*it).velocity.y*0.7f) });
+			App->view->LayerBlit(1, (*it).projectile->GetTexture(), (*it).projectile->GetPos(), (*it).projectile->GetCurrentAnimationRect(dt));
+		}
+	
 
 }
 
 void ProjectileManager::CleanUp()
 {
-}
-
-void ProjectileManager::CreateProjectile(parent who)
-{
-
-	/*Player* player_entity = (Player*)App->entity->GetEntity(PARENT_NULL);
-
-	switch (who)
-	{
-	case PARENT_P1:
-
-
-		prefab_proj1.projectile = new GameObject(iPoint(0, 0), App->cf->CATEGORY_PLAYER, App->cf->MASK_PLAYER, pbody_type::p_t_projectile, 0);
-
-		player_entity = (Player*)App->entity->GetEntity(PARENT_P1);
-		prefab_proj1.projectile->SetPos({0,0});
-		prefab_proj1.active = false; 
-		prefab_proj1.parent = PARENT_P1;
-		
-		prefab_proj1.velocity = { 0,0 };
-
-		prefab_proj1.projectile->SetTexture(projectiles_texture);
-		
-		break;
-
-	case PARENT_P2:
-
-
-		prefab_proj2.projectile = new GameObject(iPoint(0, 0), App->cf->CATEGORY_PLAYER, App->cf->MASK_PLAYER, pbody_type::p_t_projectile, 0);
-
-		player_entity = (Player*)App->entity->GetEntity(PARENT_P2);
-		prefab_proj2.projectile->SetPos({0,0});
-		prefab_proj2.active = false;
-		prefab_proj2.parent = PARENT_P2;
-
-		prefab_proj2.velocity = { 0,0 };
-
-		prefab_proj2.projectile->SetTexture(projectiles_texture);
-
-		break;
-
-	case PARENT_NULL:
-		break;
-	}*/
 
 }
 
@@ -112,7 +70,6 @@ void ProjectileManager::ShotProjectile(parent who)
 
 	new_projectile.projectile->animator->LoadAnimationsFromXML(doc);
 
-	projectiles_on_screen.push_back(new_projectile);
 
 	// Create particular properties 
 
@@ -132,60 +89,23 @@ void ProjectileManager::ShotProjectile(parent who)
 
 	switch (player_entity->arrow.quadrant)
 			{
-			case 1:
-				new_projectile.velocity = iPoint((cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), -(sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+			case 1:			
+				new_projectile.velocity = fPoint((cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), -(sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
 				break;
 
 			case 2:
-				new_projectile.velocity = iPoint(-(cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), (sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+				new_projectile.velocity = fPoint(-(cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), -(sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
 				break; 
 
-			case 3: 
-				new_projectile.velocity = iPoint(-(cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), -(sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+			case 3: 			
+				new_projectile.velocity = fPoint(-(cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), (sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
 				break; 
 
-			case 4:
-				new_projectile.velocity = iPoint((cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), (sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
+			case 4:	
+				new_projectile.velocity = fPoint((cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), (sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
 				break; 
 			}
 
+	projectiles_on_screen.push_back(new_projectile);
 
-	// new_projectile.projectile->animator->LoadAnimationsFromXML(doc); / Projectile new_projectile;
-	//new_projectile.projectile->animator->SetAnimation("projectilep1");
-	//switch (who)
-	// projectiles_on_screen.push_back(new_projectile); /{
-	//case PARENT_P1:
-
-	//	player_entity = (Player*)App->entity->GetEntity(PARENT_P1);
-
-	//	new_projectile.projectile = new GameObject(iPoint(0, 0), App->cf->CATEGORY_PLAYER, App->cf->MASK_PLAYER, pbody_type::p_t_projectile, 0);
-
-	//	new_projectile.active = true;
-	//	new_projectile.parent = PARENT_P1;
-
-	//	new_projectile.projectile->SetPos({ (float)player_entity->player_go->GetPos().x - 15, (float)player_entity->player_go->GetPos().y - 27 });
-
-	//
-	//	
-
-	//	new_projectile.projectile->SetTexture(projectiles_texture);
-
-	//	new_projectile.projectile->animator->LoadAnimationsFromXML(doc);
-	//	new_projectile.projectile->animator->SetAnimation("projectilep1");
-	//	
-	//	projectiles_on_screen.push_back(new_projectile);
-
-	//	break;
-
-	//case PARENT_P2:
-
-
-	//
-		//prefab_proj2.velocity = iPoint((cos(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY), (sin(player_entity->arrow.arrow_angle*(PI / 180))*MODULAR_PROJECTILE_VELOCITY));
-
-	//	break;
-
-	//case PARENT_NULL:
-	//	break;
-	//}
 }

@@ -4,9 +4,10 @@
 #include <vector>
 #include "PugiXml\src\pugixml.hpp"
 #include "j1Textures.h"
+#include "j1PerfTimer.h"
 #include "p2Point.h"
 
-#define MODULAR_PROJECTILE_VELOCITY 15
+#define MODULAR_PROJECTILE_VELOCITY 1.5f
 
 class GameObject; 
 class Animator; 
@@ -25,7 +26,7 @@ struct Projectile
 	bool		active = false; 
 	parent		parent = PARENT_NULL;
 
-	iPoint		velocity = { 0,0 }; 
+	fPoint		velocity = { 0,0 }; 
 };
 
 class ProjectileManager
@@ -42,8 +43,6 @@ public:
 
 	// Utility Methods
 
-	void CreateProjectile(parent who); 
-
 	void ShotProjectile(parent who); 
 
 
@@ -57,6 +56,8 @@ private:
 	std::vector<Projectile> projectiles_on_screen;
 
 	SDL_Texture* projectiles_texture = nullptr; 
+
+	j1PerfTimer* bullets_update_timer; 
 
 
 };
