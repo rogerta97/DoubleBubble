@@ -7,7 +7,7 @@
 #include "j1PerfTimer.h"
 #include "p2Point.h"
 
-#define MODULAR_PROJECTILE_VELOCITY 1.5f
+#define MODULAR_PROJECTILE_VELOCITY 0.8f
 
 class GameObject; 
 class Animator; 

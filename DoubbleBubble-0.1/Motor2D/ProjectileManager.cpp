@@ -41,11 +41,11 @@ void ProjectileManager::Update(float dt)
 
 	for (vector<Projectile>::iterator it = projectiles_on_screen.begin(); it != projectiles_on_screen.end(); it++)
 		{
-			(*it).projectile->SetPos({ (float)(*it).projectile->GetPos().x + ((*it).velocity.x*0.5f - 0.15f),  (float)(*it).projectile->GetPos().y + ((*it).velocity.y*0.7f) });
+			(*it).projectile->SetPos({ (float)(*it).projectile->fGetPos().x + ((*it).velocity.x),  (float)(*it).projectile->fGetPos().y + ((*it).velocity.y) });
 			App->view->LayerBlit(1, (*it).projectile->GetTexture(), (*it).projectile->GetPos(), (*it).projectile->GetCurrentAnimationRect(dt));
 		}
 	
-
+	//x *0.5f - 0.15f
 }
 
 void ProjectileManager::CleanUp()
