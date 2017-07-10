@@ -36,16 +36,14 @@ void ProjectileManager::Update(float dt)
 	}
 
 	//We update the rest
-	/// We are updating every 0.2 sec to ease the use of velocity variable avoiding it to be 0.8999.
-	
 
+	
 	for (vector<Projectile>::iterator it = projectiles_on_screen.begin(); it != projectiles_on_screen.end(); it++)
 		{
 			(*it).projectile->SetPos({ (float)(*it).projectile->fGetPos().x + ((*it).velocity.x),  (float)(*it).projectile->fGetPos().y + ((*it).velocity.y) });
 			App->view->LayerBlit(1, (*it).projectile->GetTexture(), (*it).projectile->GetPos(), (*it).projectile->GetCurrentAnimationRect(dt));
 		}
-	
-	//x *0.5f - 0.15f
+
 }
 
 void ProjectileManager::CleanUp()

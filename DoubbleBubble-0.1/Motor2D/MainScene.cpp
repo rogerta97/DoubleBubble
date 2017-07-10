@@ -66,7 +66,7 @@ bool MainScene::Update(float dt)
 	bool ret = true;
 
 	// Drawing the obstacles
-	s_manager->Update(dt);
+	//s_manager->Update(dt);
 	s_manager->Draw();
 
 	proj_manager->Update(dt); 
